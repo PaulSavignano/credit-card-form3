@@ -13,6 +13,18 @@ export class CreditCard extends Component {
       cvc: null,
       token: null,
     }
+    this.setCardType = this.setCardType.bind(this)
+  }
+  setCardType(event) {
+    const type = Payment.fns.cardType(event.target.value)
+    const cards = document.querySelectorAll('[data-brand]')
+    cards.forEach.call(cards, (element) => {
+      if (element.getAttribute('data-brand') === type) {
+        element.classList.add('active')
+      } else {
+        element.classList.remove('active')
+      }
+    })
   }
   renderCardList() {
     return (
