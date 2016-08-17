@@ -26,10 +26,56 @@ export class CreditCard extends Component {
       </ul>
     )
   }
+  renderCardForm() {
+    return (
+      <form onSubmit={ this.handleSubmit } className="CardForm">
+        <Row>
+          <Col xs={ 12 }>
+            <FormGroup>
+              <ControlLabel>Card Number</ControlLabel>
+              <input
+                onKeyUp={ this.setCardType }
+                className="form-control"
+                type="text"
+                ref="number"
+                placeholder="Card Number"
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={ 6 } sm={ 5 }>
+            <FormGroup>
+              <ControlLabel>Expiration</ControlLabel>
+              <input
+                type="text"
+                className="form-control text-center"
+                ref="expiration"
+                placeholder="MM/YYYY"
+              />
+            </FormGroup>
+          </Col>
+          <Col xs={ 6 } sm={ 4 } smOffset={ 3 }>
+            <FormGroup>
+              <ControlLabel>CVC</ControlLabel>
+              <input
+                type="text"
+                className="form-control text-center"
+                ref="cvc"
+                placeholder="CVC"
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+        <Button type="submit" bsStyle="success" block>Generate Token</Button>
+      </form>
+    )
+  }
   render() {
     return (
       <div className="CreditCard">
         { this.renderCardList() }
+        { this.renderCardForm() }
       </div>
     )
   }
