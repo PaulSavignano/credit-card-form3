@@ -32,13 +32,14 @@ export class CreditCard extends Component {
     this.resetCard()
     const { refs } = this
     const number = refs.number.value
-    const expiration = refs.expiration.split('/')
+    const expiration = refs.expiration.value.split('/')
     const exp_month = parseInt(expiration[0], 10)
     const exp_year = parseInt(expiration[1], 10)
     const cvc = refs.cvc.value
     const card = { number, exp_month, exp_year, cvc }
     getStripeToken(card)
     .then((token) => {
+      console.log(token)
       card.token = token
       this.setState(card)
     }).catch((error) => {
@@ -113,6 +114,19 @@ export class CreditCard extends Component {
       </form>
     )
   }
+  renderCard() {
+    const { number, exp_month, exp_year, cvc, token } = this.state
+    return number ? (
+      <Alert bsStyle="info">
+        <h5>{ number }</h5>
+        <p className="exp-cvc">
+          <span>{ exp_month }/{ exp_year }</span>
+          <span>{ cvc }</span>
+        </p>
+        <em>{ token }</em>
+      </Alert>
+    ) : ''
+  }
   componentDidMount() {
     const { number, expiration, cvc } = this.refs
     Payment.formatCardNumber(number)
@@ -124,6 +138,7 @@ export class CreditCard extends Component {
       <div className="CreditCard">
         { this.renderCardList() }
         { this.renderCardForm() }
+        { this.renderCard() }
       </div>
     )
   }
