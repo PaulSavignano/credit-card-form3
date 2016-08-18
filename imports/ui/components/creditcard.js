@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Payment from 'payment'
 import { Row, Col, FormGroup, ControlLabel, Button, Alert } from 'react-bootstrap'
 import { Bert } from 'meteor/themeteorchef:bert'
+import { getStripeToken } from '../../modules/get-stripe-token.js'
 
 export class CreditCard extends Component {
   constructor(props) {
@@ -35,7 +36,14 @@ export class CreditCard extends Component {
     const exp_month = parseInt(expiration[0], 10)
     const exp_year = parseInt(expiration[1], 10)
     const cvc = refs.cvc.value
-    const card { number, exp_month, exp_year, cvc }
+    const card = { number, exp_month, exp_year, cvc }
+    getStripeToken(card)
+    .then((token) => {
+      card.token = token
+      this.setState(card)
+    }).catch((error) => {
+      Bert.alert(error, 'danger')
+    })
   }
   setCardType(event) {
     const type = Payment.fns.cardType(event.target.value)

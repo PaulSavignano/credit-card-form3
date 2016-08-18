@@ -3,3 +3,5 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './routes.js';
 
 Bert.defaults.style = 'growl-top-right';
+
+Stripe.setPublishableKey(Meteor.settings.public.stripe)
